@@ -1,23 +1,29 @@
-import 'package:blog_app/features/auth/domain/entities/user.dart';
+import 'package:blog_app/core/common/entities/user.dart';
 
 class UserModel extends User {
   UserModel({
     required super.id,
-    required super.name,
     required super.email,
+    required super.name,
   });
-  factory UserModel.fromJson(Map<String, dynamic> json) {
+
+  factory UserModel.fromJson(Map<String, dynamic> map) {
     return UserModel(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
+      id: map['id'] ?? '',
+      email: map['email'] ?? '',
+      name: map['name'] ?? '',
     );
   }
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-    };
+
+  UserModel copyWith({
+    String? id,
+    String? email,
+    String? name,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      name: name ?? this.name,
+    );
   }
 }
