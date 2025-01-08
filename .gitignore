@@ -45,3 +45,7 @@ app.*.map.json
 /android/app/release
 
 /lib/core/secret/app_secrets.dart
+
+assets/*
+android/app/src/main/res/*
+flutter_launcher_icons.yaml
