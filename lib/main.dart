@@ -1,3 +1,4 @@
+import 'package:blog_app/core/constants/constansts.dart';
 import 'package:blog_app/core/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/theme/theme.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Blog App',
+      title: Constansts.appName,
       theme: AppTheme.darkThemeMode,
       home: BlocSelector<AppUserCubit, AppUserState, bool>(selector: (state) {
         return state is AppUserLoggedIn;

@@ -64,4 +64,18 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> signOut() async {
+    try {
+      if (!await connectionChecker.isConnected) {
+        return left(Failure(Constansts.noConnectionErrorMessage));
+      }
+      await authRemoteDataSource
+          .signOut(); // Call the remote data source method
+      return right(null);
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }

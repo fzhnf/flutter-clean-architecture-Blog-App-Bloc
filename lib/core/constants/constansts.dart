@@ -6,4 +6,5 @@ class Constansts {
     'Entertainment'
   ];
   static const noConnectionErrorMessage = 'No internet connection';
+  static const appName = 'Blog App';
 }

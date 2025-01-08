@@ -1,6 +1,8 @@
 import 'package:blog_app/core/common/widgets/loader.dart';
+import 'package:blog_app/core/constants/constansts.dart';
 import 'package:blog_app/core/theme/pallete.dart';
 import 'package:blog_app/core/utils/show_snackbar.dart';
+import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:blog_app/features/blog/presentation/pages/add_new_blog_page.dart';
 import 'package:blog_app/features/blog/presentation/widgets/blog_card.dart';
@@ -28,7 +30,51 @@ class _BlogPageState extends State<BlogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Blog App'),
+        title: const Center(
+            child: Text(
+          Constansts.appName,
+          textAlign: TextAlign.center,
+        )),
+        leading: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is AuthSuccess) {
+              final user = state.user; // Access the user data
+              return PopupMenuButton<String>(
+                icon: const Icon(CupertinoIcons.person),
+                onSelected: (value) {
+                  if (value == 'logout') {
+                    context.read<AuthBloc>().add(AuthSignOut());
+                  }
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    enabled: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Name: ${user.name}',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text('Email: ${user.email}'),
+                        Text('ID: ${user.id}'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuDivider(),
+                  const PopupMenuItem(
+                    value: 'logout',
+                    child: Text('Logout', style: TextStyle(color: Colors.red)),
+                  ),
+                ],
+              );
+            } else {
+              return const Icon(CupertinoIcons.person);
+            }
+          },
+        ),
         actions: [
           IconButton(
               onPressed: () {
