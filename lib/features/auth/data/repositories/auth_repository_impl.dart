@@ -1,4 +1,5 @@
 import 'package:blog_app/core/common/entities/user.dart';
+import 'package:blog_app/core/constants/constansts.dart';
 import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/core/network/connection_checker.dart';
@@ -18,7 +19,7 @@ class AuthRepositoryImpl implements AuthRepository {
       if (!await connectionChecker.isConnected) {
         final session = authRemoteDataSource.currentUserSession;
         if (session == null) {
-          return left(Failure('No internet connection'));
+          return left(Failure(Constansts.noConnectionErrorMessage));
         }
         return right(UserModel(
             id: session.user.id, email: session.user.email ?? '', name: ''));
@@ -55,7 +56,7 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       if (!await connectionChecker.isConnected) {
-        return left(Failure('No internet connection'));
+        return left(Failure(Constansts.noConnectionErrorMessage));
       }
       final user = await fn();
       return right(user);
