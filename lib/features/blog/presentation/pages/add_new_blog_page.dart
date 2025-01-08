@@ -100,7 +100,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: Constansts.categories
+                        children: Constansts.topics
                             .map((e) => Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: GestureDetector(
