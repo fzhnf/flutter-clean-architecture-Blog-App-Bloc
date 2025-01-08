@@ -5,6 +5,7 @@ import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/pages/signup_page.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
+import 'package:blog_app/features/blog/presentation/pages/blog_page.dart';
 import 'package:catppuccin_flutter/catppuccin_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,24 +13,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Flavor flavor = catppuccin.macchiato;
 
 class LoginPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (context) => const LoginPage());
   const LoginPage({super.key});
-
   @override
   State<LoginPage> createState() => _SignUpPageState();
+
+  static route() => MaterialPageRoute(builder: (context) => const LoginPage());
 }
 
 class _SignUpPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +33,12 @@ class _SignUpPageState extends State<LoginPage> {
         child: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
           if (state is AuthFailure) {
             showSnackBar(context, state.message);
+          } else if (state is AuthSuccess) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              BlogPage.route(),
+              (route) => false,
+            );
           }
         }, builder: (context, state) {
           if (state is AuthLoading) {
@@ -98,5 +98,12 @@ class _SignUpPageState extends State<LoginPage> {
         }),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }
